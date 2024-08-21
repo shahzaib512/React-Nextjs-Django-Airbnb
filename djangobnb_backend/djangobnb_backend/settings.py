@@ -3,6 +3,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
+from django.core.management.utils import get_random_secret_key
 
 load_dotenv()
 
@@ -14,13 +15,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #bool(os.environ.get("DEBUG", default=0))
 
 if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.226.81.32"]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 else:
     ALLOWED_HOSTS = ["64.226.81.32"]
 
@@ -29,7 +31,7 @@ AUTH_USER_MODEL = 'useraccount.User'
 SITE_ID = 1
 
 if DEBUG:
-    WEBSITE_URL = 'http://localhost:8000'
+    WEBSITE_URL = 'http://localhost:8001'
 else:
     WEBSITE_URL = 'http://64.226.81.32:1337'
 
@@ -65,24 +67,24 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
-    'http://64.226.81.32',
-    'http://64.226.81.32:1337'
+    'http://127.0.0.1:8001',
+    'http://127.0.0.1:3001',
+    # 'http://64.226.81.32',
+    # 'http://64.226.81.32:1337'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
-    'http://64.226.81.32',
-    'http://64.226.81.32:1337'
+    'http://127.0.0.1:8001',
+    'http://127.0.0.1:3001',
+    # 'http://64.226.81.32',
+    # 'http://64.226.81.32:1337'
 ]
 
 CORS_ORIGINS_WHITELIST = [
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
-    'http://64.226.81.32',
-    'http://64.226.81.32:1337'
+    'http://127.0.0.1:8001',
+    'http://127.0.0.1:3001',
+    # 'http://64.226.81.32',
+    # 'http://64.226.81.32:1337'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -158,14 +160,16 @@ ASGI_APPLICATION = 'djangobnb_backend.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE"),
-        'NAME': os.environ.get("SQL_DATABASE"),
-        'USER': os.environ.get("SQL_USER"),
-        'PASSWORD': os.environ.get("SQL_PASSWORD"),
-        'HOST': os.environ.get("SQL_HOST"),
-        'PORT': os.environ.get("SQL_PORT"),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djangobnb',
+        'USER': 'postgresuser',
+        'PASSWORD': 'postgrespassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
+
 
 
 # Password validation
